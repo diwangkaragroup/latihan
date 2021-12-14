@@ -1,0 +1,35 @@
+Options +SymLinksIfOwnerMatch
+RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteRule ^robots.txt - [L]
+
+
+##### pengaturan halaman backend
+RewriteCond %{REQUEST_URI} ^/latihan/(admin)
+RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+RewriteRule ^admin/images/(.*)$ frontend/images/$1 [L]
+RewriteRule ^admin/webfonts/(.*)$ backend/web/webfonts/$1 [L]
+RewriteCond %{REQUEST_URI} !^/backend/web/(assets|css|js|webfonts)/
+RewriteCond %{REQUEST_URI} ^/latihan/(admin)
+RewriteRule ^.*$ backend/web/index.php [L]
+##### eof dashbooard
+
+#### pengaturan halaman frontend
+RewriteCond %{REQUEST_URI} ^/latihan/(assets|css|js)
+RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+RewriteRule ^webfonts/(.*)$ frontend/web/webfonts/$1 [L]
+RewriteRule ^images/(.*)$ frontend/images/$1 [L]
+RewriteRule ^videos/(.*)$ frontend/videos/$1 [L]
+RewriteCond %{REQUEST_URI} !^/latihan/(frontend|backend)/web/(assets|css|js)/
+RewriteCond %{REQUEST_URI} !index.php
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.gif|\.jpeg|\.bmp|\.JPG|\.pdf|\.ico|\.xlsx|\.eot|\.ttf|\.woff|\.woff2|\.svg|\.mp4|.\webm|.\webp)$
+
+RewriteRule ^.*$ frontend/web/index.php
